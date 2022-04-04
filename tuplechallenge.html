@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html lang = "pt-br">
+<head>
+	<title>Tuple Challenge</title>
+	<meta charset="utf-8" />
+</head>
+<body>
+   <h1> Tuple Challenge </h1>
+<p id="demo"></p>
+
+	<script>
+		var facts = [
+  ['gabriel', 'endereço', 'av rio branco, 109', true],
+  ['joão', 'endereço', 'rua alice, 10', true],
+  ['joão', 'endereço', 'rua bob, 88', true],
+  ['joão', 'telefone', '234-5678', true],
+  ['joão', 'telefone', '91234-5555', true],
+  ['joão', 'telefone', '234-5678', false],
+  ['gabriel', 'telefone', '98888-1111', true],
+  ['gabriel', 'telefone', '56789-1010', true],
+];
+
+var schema = [
+    ['endereço', 'cardinality', 'one'],
+    ['telefone', 'cardinality', 'many']
+];
+
+const byVal = (arr, value) => arr.filter(f => f.includes(value))
+const isAdded = (arr, index) => arr.filter(f => f[index])
+const persons = arr => arr.reduce(function (a, b) { if (!a.includes(b[0])) a.push(b[0]); return a; }, []);
+
+const getFacts = (facts, schema) => {
+let dados = isAdded(facts, 3)
+let fake = byVal(facts, '234-5678')
+let entidades = persons(dados)
+let retorno = [];
+let fx = facts[2];
+
+ schema.map(s => {
+
+  if(s[2] === 'one'){
+    entidades.map(e => {
+      retorno.push(byVal(byVal(dados, s[0]),e).slice(-1)[0])
+    })
+  }else{
+    retorno = retorno.concat(byVal(dados, s[0]))
+  }
+})
+
+ return retorno
+}
+
+document.getElementById("demo").innerHTML =getFacts(facts, schema);
+	</script>
+
+</body>
+</html>
